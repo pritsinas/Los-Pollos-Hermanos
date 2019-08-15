@@ -113,3 +113,15 @@ C:\bootcamp\C#\LosPollosHermanos\LosPollosHermanos\obj\Debug\LosPollosHermanos.M
 C:\bootcamp\C#\LosPollosHermanos\LosPollosHermanos\obj\Debug\LosPollosHermanos.Migrations.CreateShipmentAndTypeOfLoadEntities.resources
 C:\bootcamp\C#\LosPollosHermanos\LosPollosHermanos\obj\Debug\LosPollosHermanos.Migrations.PopulateTypeOfLoadsTable.resources
 C:\bootcamp\C#\LosPollosHermanos\LosPollosHermanos\obj\Debug\LosPollosHermanos.Migrations.AddUserDriverToShipment.resources
+C:\bootcamp\C#\LosPollosHermanos\LosPollosHermanos\bin\System.Net.Http.Formatting.dll
+C:\bootcamp\C#\LosPollosHermanos\LosPollosHermanos\bin\System.Web.Http.dll
+C:\bootcamp\C#\LosPollosHermanos\LosPollosHermanos\bin\System.Web.Http.WebHost.dll
+C:\bootcamp\C#\LosPollosHermanos\LosPollosHermanos\bin\System.Net.Http.Formatting.xml
+C:\bootcamp\C#\LosPollosHermanos\LosPollosHermanos\bin\System.Web.Http.xml
+C:\bootcamp\C#\LosPollosHermanos\LosPollosHermanos\bin\System.Web.Http.WebHost.xml
+C:\bootcamp\C#\LosPollosHermanos\LosPollosHermanos\bin\AutoMapper.dll
+C:\bootcamp\C#\LosPollosHermanos\LosPollosHermanos\bin\System.ValueTuple.dll
+C:\bootcamp\C#\LosPollosHermanos\LosPollosHermanos\bin\AutoMapper.pdb
+C:\bootcamp\C#\LosPollosHermanos\LosPollosHermanos\bin\AutoMapper.xml
+C:\bootcamp\C#\LosPollosHermanos\LosPollosHermanos\bin\System.ValueTuple.xml
+C:\bootcamp\C#\LosPollosHermanos\LosPollosHermanos\obj\Debug\LosPollosHermanos.Migrations.AddIsCancelledPropertyToShipment.resources
