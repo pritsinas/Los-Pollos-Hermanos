@@ -1,0 +1,25 @@
+﻿@model IEnumerable<LosPollosHermanos.Models.Shipment>
+@{
+    ViewBag.Title = "MyShipments";
+}
+
+<h2>My Shipments</h2>
+@foreach (var shipment in Model)
+{
+<li>
+    <div>
+        Location : @shipment.Location
+    </div>
+    <div>
+        Date: @shipment.DateTime.ToString("MMM")
+    </div>
+    <div>
+        Time : @shipment.DateTime.ToString("dd")
+    </div>
+    <div>
+       Load Type : @shipment.TypeOfLoad.Name
+    </div>
+</li>
+}
+
+

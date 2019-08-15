@@ -1,0 +1,42 @@
+﻿@model LosPollosHermanos.ViewModels.ShipmentFormViewModel
+@{
+    ViewBag.Title = "ShipmentForm";
+}
+
+<h2>Model.Heading</h2>
+@using (Html.BeginForm(Model.Action, "Shipments"))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.Id)
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Location)
+        @Html.TextBoxFor(m => m.Location, new { @class = "form-control", autofocus = "autofocus" })
+        @Html.ValidationMessageFor(m => m.Location)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Date)
+        @Html.TextBoxFor(m => m.Date, new { @class = "form-control", placeholder = "eg 4 Sep 2019" })
+        @Html.ValidationMessageFor(m => m.Date)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Time)
+        @Html.TextBoxFor(m => m.Time, new { @class = "form-control", placeholder = "eg 21:00" })
+        @Html.ValidationMessageFor(m => m.Time)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.TypeOfLoad)
+        @Html.DropDownListFor(m => m.TypeOfLoad, new SelectList(Model.TypeOfLoads, "Id", "Name"), "Select Type", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.TypeOfLoad)
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-lg">Save</button>
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jquery")
+}
