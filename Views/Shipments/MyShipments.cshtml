@@ -6,20 +6,70 @@
 <h2>My Shipments</h2>
 @foreach (var shipment in Model)
 {
-<li>
-    <div>
-        Location : @shipment.Location
-    </div>
-    <div>
-        Date: @shipment.DateTime.ToString("MMM")
-    </div>
-    <div>
-        Time : @shipment.DateTime.ToString("dd")
-    </div>
-    <div>
-       Load Type : @shipment.TypeOfLoad.Name
-    </div>
-</li>
+<ul class="">
+    <li>
+            <div>
+                Location : @shipment.Location
+            </div>
+            <div>
+                Date: @shipment.DateTime.ToLongDateString()
+            </div>
+            <div>
+                Time : @shipment.DateTime.ToString("HH:mm")
+            </div>
+            <div>
+               Load Type : @shipment.TypeOfLoad.Name
+            </div>
+            <div>
+                <a href="@Url.Action("Edit", "Shipments", new { id = shipment.Id})">Edit</a>
+                <a href="#" class="js-cancel-shipment" data-shipment-id="@shipment.Id">Cancel</a>
+            </div>
+     </li>
+</ul>
+}
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $(".js-cancel-shipment").click(function (e) {
+                var link = $(e.target);
+
+                var dialog = bootbox.dialog({
+                    title: 'Cancel Shipment',
+                    message: "<p>Cancel Shipment?</p>",
+                    size: "small",
+                    buttons: {
+                        no: {
+                            label: "No",
+                            className: 'btn-default',
+                            callback: function () {
+                                bootbox.hideAll();
+                            }
+                        },
+                        yes: {
+                            label: "Yes",
+                            className: 'btn-danger',
+                            callback: function () {
+                                $.ajax({
+                                    url: "/api/shipments/" + link.attr("data-shipment-id"),
+                                    method: "DELETE"
+                                })
+                                    .done(function () {
+                                        link.parents("li").fadeOut(function () {
+                                            $(this).remove();
+                                        });
+                                    })
+                                    .fail(function () {
+                                        alert("something failed.");
+                                    });
+                            }                              
+                        }
+                    }
+                });
+            });
+        });       
+    </script>
 }
 
 

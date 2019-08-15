@@ -34,9 +34,13 @@ namespace LosPollosHermanos.ViewModels
         {
             get
             {
-                Expression<Func<ShipmentsController, ActionResult>> create = (c => c.Create());
-             
-                return (create.Body as MethodCallExpression).Method.Name;
+                Expression<Func<ShipmentsController, ActionResult>> create = (s => s.Create());
+
+                Expression<Func<ShipmentsController, ActionResult>> update = (s => s.Update(null));
+
+                var action = (Id != 0) ? update : create;
+
+                return (action.Body as MethodCallExpression).Method.Name;
             }
         }
 
