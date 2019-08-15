@@ -3,7 +3,7 @@
     ViewBag.Title = "ShipmentForm";
 }
 
-<h2>Model.Heading</h2>
+<h2>@Model.Heading</h2>
 @using (Html.BeginForm(Model.Action, "Shipments"))
 {
     @Html.AntiForgeryToken()
@@ -38,5 +38,5 @@
 
 @section scripts
 {
-    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/lib")
 }
