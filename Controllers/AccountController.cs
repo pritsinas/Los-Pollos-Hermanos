@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using LosPollosHermanos.Models;
 using LosPollosHermanos.ViewModels;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace LosPollosHermanos.Controllers
 {
@@ -156,8 +157,23 @@ namespace LosPollosHermanos.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+                    //ROLE DRIVER
+
+                    //var roleStore = new RoleStore<IdentityRole>(new ApplicationDbContext());
+                    //var roleManager = new RoleManager<IdentityRole>(roleStore);
+                    //await roleManager.CreateAsync(new IdentityRole("Driver"));
+                    //await UserManager.AddToRoleAsync(user.Id, "Driver");
+                    //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+
+                    //ROLE CEO
+
+                    //var roleStore = new RoleStore<IdentityRole>(new ApplicationDbContext());
+                    //var roleManager = new RoleManager<IdentityRole>(roleStore);
+                    //await roleManager.CreateAsync(new IdentityRole("Ceo"));
+                    //await UserManager.AddToRoleAsync(user.Id, "Ceo");
+                    //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);

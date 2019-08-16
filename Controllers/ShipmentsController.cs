@@ -7,52 +7,58 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Data.Entity;
-
+using LosPollosHermanos.Persistance;
 
 namespace LosPollosHermanos.Controllers
 {
     public class ShipmentsController : Controller
     {
-        private readonly ApplicationDbContext context;
+        //private readonly ApplicationDbContext context;
 
-        public ShipmentsController()
+        private readonly IUnitOfWork unitOfWork;
+
+        public ShipmentsController(IUnitOfWork unitOfWork)
         {
-            context = new ApplicationDbContext();
+            //context = new ApplicationDbContext();
+            this.unitOfWork = unitOfWork;
         }
 
-
-        protected override void Dispose(bool disposing)
-        {
-            context.Dispose();
-        }
+        //protected override void Dispose(bool disposing)
+        //{
+        //    context.Dispose();
+        //}
 
         //GET:
-        [Authorize]
+        [Authorize(Roles = RoleName.Driver)]
         public ActionResult MyShipments()
         {
             var userId = User.Identity.GetUserId();
 
-            var myShipments = context.Shipments
-                .Include(s => s.TypeOfLoad)
-                .Where(s => s.DriverId == userId && !s.IsCancelled)
-                .ToList();
-            
+            //var myShipments = context.Shipments
+            //    .Include(s => s.TypeOfLoad)
+            //    .Where(s => s.DriverId == userId && !s.IsCancelled)
+            //    .ToList();
+
+            var myShipments = unitOfWork.Shipments.GetMyShipments(userId);
+
             return View(myShipments);
         }
 
         //POST
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = RoleName.Driver)]
         [ValidateAntiForgeryToken]
         public ActionResult Update (ShipmentFormViewModel viewModel)
         {
             if(!ModelState.IsValid)
             {
-                viewModel.TypeOfLoads = context.TypeOfLoads.ToList();
+                //viewModel.TypeOfLoads = context.TypeOfLoads.ToList();
+                viewModel.TypeOfLoads = unitOfWork.TypeOfLoads.GetTypesOfLoad();
                 return View("ShipmentForm", viewModel);
             }
 
-            var shipmentDb = context.Shipments.Single(s => s.Id == viewModel.Id);
+            //var shipmentDb = context.Shipments.Single(s => s.Id == viewModel.Id);
+            var shipmentDb = unitOfWork.Shipments.GetShipment(viewModel.Id);
 
             if (shipmentDb == null)
                 return HttpNotFound();
@@ -62,19 +68,21 @@ namespace LosPollosHermanos.Controllers
 
             shipmentDb.Modify(viewModel.GetDateTime(), viewModel.Location, viewModel.TypeOfLoad);
 
-            context.SaveChanges();
+            //context.SaveChanges();
+            unitOfWork.Complete();
 
             return RedirectToAction("MyShipments", "Shipments");
         }
 
 
         //GET
-        [Authorize]
+        [Authorize(Roles = RoleName.Driver)]
         public ActionResult Edit(int id)
         {
             var userId = User.Identity.GetUserId();
 
-            var shipment = context.Shipments.Single(s => s.Id == id && s.DriverId == userId);
+            //var shipment = context.Shipments.Single(s => s.Id == id && s.DriverId == userId);
+            var shipment = unitOfWork.Shipments.EditShipment(id, userId);
 
             var viewModel = new ShipmentFormViewModel()
             {
@@ -84,7 +92,8 @@ namespace LosPollosHermanos.Controllers
                 Date = shipment.DateTime.ToLongDateString(),
                 Time = shipment.DateTime.ToString("HH:mm"),
                 TypeOfLoad = shipment.TypeOfLoadId,
-                TypeOfLoads = context.TypeOfLoads.ToList()             
+                //TypeOfLoads = context.TypeOfLoads.ToList() 
+                TypeOfLoads = unitOfWork.TypeOfLoads.GetTypesOfLoad()
             };
 
             return View("ShipmentForm", viewModel);
@@ -92,13 +101,14 @@ namespace LosPollosHermanos.Controllers
 
         // POST:
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = RoleName.Driver)]
         [ValidateAntiForgeryToken]
         public ActionResult Create(ShipmentFormViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
-                viewModel.TypeOfLoads = context.TypeOfLoads.ToList();
+                //viewModel.TypeOfLoads = context.TypeOfLoads.ToList();
+                viewModel.TypeOfLoads = unitOfWork.TypeOfLoads.GetTypesOfLoad();
 
                 return View("ShipmentForm", viewModel);
             }
@@ -111,20 +121,23 @@ namespace LosPollosHermanos.Controllers
                 Location = viewModel.Location
             };
 
-            context.Shipments.Add(shipment);
-            context.SaveChanges();
+            //context.Shipments.Add(shipment);
+            //context.SaveChanges();
+            unitOfWork.Shipments.Add(shipment);
+            unitOfWork.Complete();
 
             return RedirectToAction("MyShipments", "Shipments");
         }
 
         // GET:
-        [Authorize]
+        [Authorize(Roles = RoleName.Driver)]
         public ActionResult Create()
         {
             var viewModel = new ShipmentFormViewModel
             {
                 Heading = "Add Shipment",
-                TypeOfLoads = context.TypeOfLoads.ToList()
+                //TypeOfLoads = context.TypeOfLoads.ToList()
+                TypeOfLoads = unitOfWork.TypeOfLoads.GetTypesOfLoad()
             };
 
             return View("ShipmentForm", viewModel);
