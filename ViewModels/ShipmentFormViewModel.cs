@@ -18,6 +18,7 @@ namespace LosPollosHermanos.ViewModels
         public string Location { get; set; }
 
         [Required]
+        [FutureDate] // custom Annotation
         public string Date { get; set; }
 
         [Required]
